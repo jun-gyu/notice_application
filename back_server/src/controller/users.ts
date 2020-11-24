@@ -9,7 +9,7 @@ export async function signUp(req: Request, res: Response) {
   const isErr = await conn.singUp(name, email, bcyPassword);
   if (isErr) {
     //에러가 있을 때만 signUp에서 return 값이 있음.
-    return res.status(500).send(isErr.message);
+    return res.status(400).send(isErr.message);
   } else {
     return res.status(200).send("welcom newUser");
   }
@@ -21,10 +21,9 @@ export async function signIn(req: Request, res: Response) {
   if (isExist.checkPW) {
     const conn = new Connection();
     const result = await conn.singIn(email, isExist.userPW);
-
     res.status(200).send({ message: `welcome ${result[0][0].name}` });
   } else if (isExist) {
-    res.status(500).send({ message: isExist.message });
+    res.status(400).send({ message: isExist.message });
   }
 }
 
