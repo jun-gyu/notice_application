@@ -8,6 +8,8 @@ const config = {
   DB_USER: process.env.DB_USER,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_DATABASE: process.env.DB_DATABASE,
+  SESSION_SECRET: process.env.SESSION_SECRET,
+  COOKIE_SECRET: process.env.COOKIE_SECRET,
 };
 
 export default config;
