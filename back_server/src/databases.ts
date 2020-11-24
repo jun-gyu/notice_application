@@ -3,7 +3,7 @@ import config from "./config/index";
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE } = config;
 
-export default class Connetion {
+export default class Connection {
   async connection() {
     const pool = createPool({
       connectionLimit: 10,
@@ -14,29 +14,54 @@ export default class Connetion {
     });
     return pool;
   }
-
-  async newUser(name: string, email: string, password: string) {
+  async userPassword(email: string): Promise<any> {
     try {
       const pool = await this.connection();
       const conn = await pool.getConnection();
-      const insertSql: string = `insert into users(name,email, password) values(?,?,?)`;
+      const insertSql: string = "select * from users where email=?";
       conn.beginTransaction();
-      const users1 = await conn.query(insertSql, [name, email, password]); // email 필드에 적용되어있는 unique속성으로 인해 중복이라면 catch 로 간다.
+      const result = await conn.query(insertSql, [email]);
+      conn.release();
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+  async singUp(name: string, email: string, password: string): Promise<any> {
+    try {
+      const pool = await this.connection();
+      const conn = await pool.getConnection();
+      const insertSql: string =
+        "insert into users(name,email, password) values(?,?,?)";
+      conn.beginTransaction();
+      await conn.query(insertSql, [name, email, password]); // email 필드에 적용되어있는 unique속성으로 인해 중복이라면 catch 로 간다.
       conn.commit();
       conn.release();
-      return users1;
     } catch (err) {
-      console.log(err); //err.message가 Duplicate(중복)일 경우 있음.;
-      return err.message;
+      return err;
+      //err.message가 Duplicate(중복)일 경우 있음.;
+    }
+  }
+
+  /**
+   * 지금 어뜨케 해야하는지 모르는거\
+     database.ts 에서 오류가 뜨면 콘솔에 출력만되고 
+     에러가 떳음에도 send에 에러가 안간다.
+   * 
+   *  
+   */
+  async singIn(email: string, password: string) {
+    try {
+      const pool = await this.connection();
+      const conn = await pool.getConnection();
+      const insertSql: string = `select * from users where email='${email}' AND password='${password}'`;
+      conn.beginTransaction();
+      const result = await conn.query(insertSql);
+      conn.commit();
+      conn.release();
+      return result;
+    } catch (err) {
+      return err;
     }
   }
 }
-
-/*
-모듈 설치 및 서버 테스트
-config 환경변수 설정
-express 초기 설정
-데이터베이스 테스트
-리액트 타입스크립트 확인.
-router controller sql 생성 
-*/
