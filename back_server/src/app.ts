@@ -1,13 +1,21 @@
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import config from "./config/index";
-import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import usersRouter from "./router/users";
 
+import redis from "redis";
+import connectRedis from "connect-redis";
+
+const redisClient = redis.createClient({
+  url: `redis://${config.REDIS_HOST}${config.REDIS_PORT}`,
+  password: config.REDIS_PASSWORD,
+});
+
+let RedisStore = connectRedis(session);
+
 const app = express();
 // middel_ware
-app.use(cookieParser(config.COOKIE_SECRET));
 app.use(
   session({
     resave: false, // 클라이언트에서 들어온 세션에 변경사항이 없어도 다시 저장할 거냐
@@ -16,8 +24,9 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false, //https 가 아닌 환경에서도 사용가능하게 함.
+      maxAge: 24 * 60 * 60 * 1000,
     },
-    name: `session-cookie`, //기본이름으로 connect.sid를 사용한다 함
+    store: new RedisStore({ client: redisClient, logErrors: true }),
   })
 );
 /*위 상태로는 메모리에 저장이되지만 서버를 껐다키면 초기화되어 내역이 사라짐.
@@ -43,6 +52,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get("/", (req: Request, res: Response) => {
+  console.log(req.session);
   res.send(`hello hansome jungyu`);
 });
 
