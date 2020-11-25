@@ -43,13 +43,6 @@ export default class Connection {
     }
   }
 
-  /**
-   * 지금 어뜨케 해야하는지 모르는거\
-     database.ts 에서 오류가 뜨면 콘솔에 출력만되고 
-     에러가 떳음에도 send에 에러가 안간다.
-   * 
-   *  
-   */
   async singIn(email: string, password: string) {
     try {
       const pool = await this.connection();
@@ -63,5 +56,9 @@ export default class Connection {
     } catch (err) {
       return err;
     }
+  }
+
+  async logOut() {
+    //Redis 와 express-session 을 연결해야함.
   }
 }
