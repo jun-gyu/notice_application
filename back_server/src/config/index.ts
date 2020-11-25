@@ -10,6 +10,7 @@ const config = {
   DB_DATABASE: process.env.DB_DATABASE,
   SESSION_SECRET: process.env.SESSION_SECRET,
   COOKIE_SECRET: process.env.COOKIE_SECRET,
+  REDIS_PORT: process.env.REDIS_PORT,
 };
 
 export default config;

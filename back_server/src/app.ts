@@ -42,6 +42,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(err.message);
 });
 
+app.get("/", (req: Request, res: Response) => {
+  res.send(`hello hansome jungyu`);
+});
+
 //router
 app.use("/users", usersRouter);
 
