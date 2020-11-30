@@ -11,6 +11,7 @@ function App() {
         <Route exact path="/" component={Main} />
         <Route path="/writePage" component={WritePage} />
         <Route path="/notice/:id" component={ClickNotice} />
+        {/* <Route path="/login" component={Login} /> */}
       </Switch>
     </div>
   );
