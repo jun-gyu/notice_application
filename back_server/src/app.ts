@@ -3,7 +3,7 @@ import session from "express-session";
 import config from "./config/index";
 import bodyParser from "body-parser";
 import usersRouter from "./router/users";
-
+import noticeRouter from "./router/notice";
 import redis from "redis";
 import connectRedis from "connect-redis";
 
@@ -52,12 +52,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get("/", (req: Request, res: Response) => {
-  console.log(req.session);
   res.send(`hello hansome jungyu`);
 });
 
 //router
 app.use("/users", usersRouter);
+app.use("/notice", noticeRouter);
 
 // server listen
 app.listen(config.port, function () {

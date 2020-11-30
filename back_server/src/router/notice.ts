@@ -1,7 +1,7 @@
-import { Router, Request, Response } from "express";
-
+import { Router } from "express";
+import { getMainPage } from "../controller/notice";
 const router = Router();
 
-router.get("/");
+router.get("/mainPage", getMainPage);
 
 export default router;

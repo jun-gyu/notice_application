@@ -3,7 +3,7 @@ import config from "./config/index";
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE } = config;
 
-export default class Connection {
+export default class UserDb {
   async connection() {
     const pool = createPool({
       connectionLimit: 10,
