@@ -3,7 +3,6 @@ import Search from "./Search";
 import Columns from "./Columns";
 
 const Main = () => {
-  
   return (
     <div>
       <Columns />
