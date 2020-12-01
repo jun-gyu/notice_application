@@ -6,7 +6,8 @@ import usersRouter from "./router/users";
 import noticeRouter from "./router/notice";
 import redis from "redis";
 import connectRedis from "connect-redis";
-
+import cors from "cors";
+import morgan from "morgan";
 const redisClient = redis.createClient({
   url: `redis://${config.REDIS_HOST}${config.REDIS_PORT}`,
   password: config.REDIS_PASSWORD,
@@ -35,7 +36,14 @@ app.use(
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
+//morgan
+app.use(morgan("dev"));
+//cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 // parse application/json
 app.use(bodyParser.json());
 
@@ -49,10 +57,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
   res.status(500).send(err.message);
-});
-
-app.get("/", (req: Request, res: Response) => {
-  res.send(`hello hansome jungyu`);
 });
 
 //router
