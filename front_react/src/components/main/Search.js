@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "semantic-ui-react";
+import fetch from "node-fetch";
 import "semantic-ui-css/semantic.min.css";
-const Search = (setObj) => {
+const Search = (props) => {
   const [dropDownValue, setdropDownValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const stateOptions = [
@@ -18,11 +19,24 @@ const Search = (setObj) => {
     let inputVal = document.querySelector(".search_input").value;
     setInputValue(inputVal);
     setdropDownValue(query);
-    console.log(
-      `inputValue : ${inputValue} , dropDownValue : ${dropDownValue}`
-    );
+    console.log(inputVal, query);
   };
-
+  console.log("outSide useEff", dropDownValue, inputValue);
+  useEffect(() => {
+    let searchQuery = {
+      menuQuery: dropDownValue,
+      contentQuery: inputValue,
+    };
+    console.log("searchQuery", searchQuery);
+    fetch("http://localhost:3005/notice/search", {
+      method: "post",
+      body: JSON.stringify(searchQuery),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((val) => props.setObj(val))
+      .catch((err) => console.log(err));
+  }, [inputValue]);
   const DropdownExampleSearchSelectionTwo = () => (
     <Dropdown
       placeholder="State"
