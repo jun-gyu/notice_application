@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Search from "./Search";
 import { v4 } from "uuid";
 import fetch from "node-fetch";
+import Search from "./Search";
 import { Link } from "react-router-dom";
-import Dum from "./Dum";
 
 const Columns = () => {
   const [obj, setObj] = useState([]);
@@ -15,6 +14,7 @@ const Columns = () => {
       .then((val) => setObj(val))
       .catch((err) => console.log(err));
   }, []);
+
   let data;
 
   if (obj.length !== 0) {
