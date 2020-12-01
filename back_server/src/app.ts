@@ -3,10 +3,11 @@ import session from "express-session";
 import config from "./config/index";
 import bodyParser from "body-parser";
 import usersRouter from "./router/users";
-
+import noticeRouter from "./router/notice";
 import redis from "redis";
 import connectRedis from "connect-redis";
-
+import cors from "cors";
+import morgan from "morgan";
 const redisClient = redis.createClient({
   url: `redis://${config.REDIS_HOST}${config.REDIS_PORT}`,
   password: config.REDIS_PASSWORD,
@@ -35,7 +36,14 @@ app.use(
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
+//morgan
+app.use(morgan("dev"));
+//cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 // parse application/json
 app.use(bodyParser.json());
 
@@ -51,13 +59,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(err.message);
 });
 
-app.get("/", (req: Request, res: Response) => {
-  console.log(req.session);
-  res.send(`hello hansome jungyu`);
-});
-
 //router
 app.use("/users", usersRouter);
+app.use("/notice", noticeRouter);
 
 // server listen
 app.listen(config.port, function () {

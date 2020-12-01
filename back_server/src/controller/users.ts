@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import Connection from "../databases";
+import UserDb from "../databases.user";
 import { bcryptFunc, compareBcy } from "../helper/bcy";
 
 export async function signUp(req: Request, res: Response) {
   const { name, email, password } = req.body;
   const bcyPassword = bcryptFunc(password);
-  const conn: Connection = new Connection();
+  const conn: UserDb = new UserDb();
   const isErr = await conn.singUp(name, email, bcyPassword);
   if (isErr) {
     //에러가 있을 때만 signUp에서 return 값이 있음.
@@ -21,7 +21,7 @@ export async function signIn(req: Request, res: Response) {
   // req.body로 들어온 비밀번호 값을 db에 저장된 암호화된 비밀번호와 비교함.
   if (isExist.checkPW) {
     //connect DB
-    const conn = new Connection();
+    const conn = new UserDb();
     const userInfo = await conn.singIn(email, isExist.userPW);
     let session: any = req.session;
     session.email = userInfo[0][0].email;

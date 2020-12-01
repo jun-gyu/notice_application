@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import Connection from "../databases";
+import UserDb from "../database.notice";
 export function bcryptFunc(password: string): string {
   const salt: string = bcrypt.genSaltSync(10);
   const hash: string = bcrypt.hashSync(password, salt);
@@ -10,7 +10,7 @@ export async function compareBcy(
   email: string,
   password: string
 ): Promise<any> {
-  const conn = new Connection();
+  const conn = new UserDb();
   try {
     const result = await conn.userPassword(email);
     if (result[0].length === 0) {
