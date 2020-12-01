@@ -25,8 +25,13 @@ export async function searchInput(req: Request, res: Response) {
   const { menuQuery, contentQuery } = req.body;
   console.log(menuQuery);
   const notice = new Notice();
-  let userId = await notice.searchResult(menuQuery, contentQuery);
-  res.send(userId);
+  let searchResult = await notice.searchResult(menuQuery, contentQuery);
+
+  if (Array.isArray(searchResult)) {
+    res.send(searchResult);
+  } else {
+    res.status(400).send({ code: 400, message: "bad request" });
+  }
 }
 
 export function modifyPage() {}
