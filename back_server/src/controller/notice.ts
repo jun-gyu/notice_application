@@ -13,6 +13,7 @@ export async function getMainPage(req: Request, res: Response) {
 }
 export async function getClickedPage(req: Request, res: Response) {
   const { noticeId } = req.params;
+  console.log(noticeId);
   const notice = new Notice();
   const result = await notice.getClickedPage(noticeId);
   if (result) {
@@ -21,9 +22,11 @@ export async function getClickedPage(req: Request, res: Response) {
     res.status(404).send({ code: 404, message: `can not found anything` });
   }
 }
+
 export async function searchInput(req: Request, res: Response) {
   const { menuQuery, contentQuery } = req.body;
-  console.log(menuQuery);
+  console.log(req.body);
+
   const notice = new Notice();
   let searchResult = await notice.searchResult(menuQuery, contentQuery);
 

@@ -9,7 +9,7 @@ export default class Notice extends UserDb {
       const pool = await this.connection();
       const conn = await pool.getConnection();
       const insertSql: string =
-        "select notice_id,title,content,update_date from notice";
+        "select users.name, notice_id,notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id;";
       conn.beginTransaction();
       const result = await conn.query(insertSql);
       conn.release();
@@ -43,24 +43,21 @@ export default class Notice extends UserDb {
         const userIdResult: any = await conn.query(insertSql);
         const userId: number = userIdResult[0][0].user_id;
         if (userId) {
-          insertSql = `select users.name, notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where users.user_id = ${userId};`;
+          insertSql = `select users.name, notice_id,notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where users.user_id = ${userId};`;
           const searchResult: any = await conn.query(insertSql);
           conn.release();
           return searchResult[0];
         }
       } else if (menuQuery === "글") {
-        insertSql = `select users.name, notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where notice.content Like "%${contentQuery}%"`;
+        insertSql = `select users.name, notice_id,notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where notice.content Like "%${contentQuery}%"`;
         const contentResult: any = await conn.query(insertSql);
         if (contentResult[0]) {
           conn.release();
           return contentResult[0];
         }
       } else if (menuQuery === "제목") {
-        console.log("hello");
-        insertSql = `select users.name, notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where notice.title Like "%${contentQuery}%"`;
-        console.log(insertSql);
+        insertSql = `select users.name, notice_id,notice.title, notice.content,notice.update_date from notice left join users on notice.user_id = users.user_id where notice.title Like "%${contentQuery}%"`;
         const titleResult: any = await conn.query(insertSql);
-        console.log(titleResult);
         if (titleResult[0]) {
           conn.release();
           return titleResult[0];
