@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const WritePage = () => {
-  return `writePage`;
+  return "ㄷ";
 };
 
 export default WritePage;

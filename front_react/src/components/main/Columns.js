@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { v4 } from "uuid";
 import fetch from "node-fetch";
 import { Link } from "react-router-dom";
 
 const Columns = (props) => {
-  console.log("columns", props);
   // Search(setObj); search 에서 click이 일어나면 fetch로 데이터를 요청 후 setObj  columns 데이터가 바뀌면 데이터 뿌려지게끔.
 
   useEffect(() => {

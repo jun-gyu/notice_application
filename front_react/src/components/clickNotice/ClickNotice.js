@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import fetch from "node-fetch";
 const ClickNotice = ({ match }) => {
   const [obj, setObj] = useState([]);
-
+  console.log("match", match);
   useEffect(() => {
     fetch(`http://localhost:3005/notice/clickPage/${match.params.id}`)
       .then((res) => res.json())
