@@ -1,6 +1,6 @@
-import UserDb from "./databases.user";
+import DbConnection from "./databases.conn";
 
-export default class Notice extends UserDb {
+export default class Notice extends DbConnection {
   constructor() {
     super();
   }
@@ -65,6 +65,41 @@ export default class Notice extends UserDb {
       }
     } catch (err) {
       return err;
+    }
+  }
+
+  async wirtePage(
+    noticeId: string,
+    title: string,
+    content: string,
+    userId: number
+  ) {
+    try {
+      const pool = await this.connection();
+      const conn = await pool.getConnection();
+      const insertSql: string = `INSERT INTO notice(notice_id,title,content,create_date,update_date,user_id) VALUES("${noticeId}","${title}","${content}",now(),now(),${userId});`;
+      conn.beginTransaction();
+      await conn.query(insertSql);
+      conn.commit();
+      conn.release();
+    } catch (err) {
+      return err;
+    }
+  }
+  async modifyPage(noticeId: string, title: string, content: string) {
+    //Update data
+    try {
+      const pool = await this.connection();
+      const conn = await pool.getConnection();
+      const insertSql: string = `UPDATE notice SET title=? ,content=?,update_date=now() WHERE notice_id=?`;
+      const query = [title, content, noticeId];
+      conn.beginTransaction();
+      const result = await conn.query(insertSql, query);
+      conn.commit();
+      conn.release();
+      return result;
+    } catch (err) {
+      console.log(err);
     }
   }
 }

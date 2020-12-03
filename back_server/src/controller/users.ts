@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import UserDb from "../databases.user";
 import { bcryptFunc, compareBcy } from "../helper/bcy";
-
+import { UserInter } from "../interface/index";
 export async function signUp(req: Request, res: Response) {
-  const { name, email, password } = req.body;
+  const { name, email, password }: UserInter = req.body;
   const bcyPassword = bcryptFunc(password);
   const conn: UserDb = new UserDb();
   const isErr = await conn.singUp(name, email, bcyPassword);
@@ -16,7 +16,7 @@ export async function signUp(req: Request, res: Response) {
 }
 
 export async function signIn(req: Request, res: Response) {
-  const { email, password } = req.body;
+  const { email, password }: UserInter = req.body;
   const isExist = await compareBcy(email, password);
   // req.body로 들어온 비밀번호 값을 db에 저장된 암호화된 비밀번호와 비교함.
   if (isExist.checkPW) {

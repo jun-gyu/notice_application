@@ -49,14 +49,14 @@ app.use(bodyParser.json());
 
 //모든요청에 실행되는 미들웨어
 app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log(`모든 요청에 다 실행된다 우아앙`);
+  console.log(`모든 요청에 실행`);
   next(); //여기서res.send를 하게되면 err에있는 send가 작동되지않는다.
 });
 
 // 모든 에러가 이쪽으로 들어옴
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
-  res.status(500).send(err.message);
+  res.status(500).send({ "from middleWare": err.message });
 });
 
 //router
