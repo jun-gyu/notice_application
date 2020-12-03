@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Dropdown } from "semantic-ui-react";
 import fetch from "node-fetch";
 import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 const Search = (props) => {
+  console.log("Search_props: ", props);
   const [dropDownValue, setdropDownValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const stateOptions = [
@@ -21,7 +22,7 @@ const Search = (props) => {
   };
   const handleInputValue = (e) => {
     e.preventDefault();
-    let searchQuery = {
+    let searchBody = {
       menuQuery: dropDownValue,
       contentQuery: inputValue,
     };
@@ -29,7 +30,7 @@ const Search = (props) => {
     if (dropDownValue !== "" && inputValue !== "") {
       fetch("http://localhost:3005/notice/search", {
         method: "post",
-        body: JSON.stringify(searchQuery),
+        body: JSON.stringify(searchBody),
         headers: { "Content-Type": "application/json" },
       })
         .then((res) => res.json())
