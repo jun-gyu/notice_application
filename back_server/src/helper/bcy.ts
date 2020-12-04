@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import UserDb from "../database.notice";
+import UserDb from "../databases.user";
 export function bcryptFunc(password: string): string {
   const salt: string = bcrypt.genSaltSync(10);
   const hash: string = bcrypt.hashSync(password, salt);
