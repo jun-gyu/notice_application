@@ -1,10 +1,12 @@
 # notice_application
 
-typescript react mysql 학습을 위한 공지사항 어플리케이션입니다. 
-
+공지사항 웹 어플리케이션입니다. 
+회원가입 공지사항 CRUD , 검색 및 조회 기능을 담았습니다.
+백엔드는 Typescript 정적타입 설정을 목표로 만들었습니다.
+프론트는 react의 컴포넌트 간 관계 및 워크플로우 이해를 목적으로 만들었습니다.
 ### 사용한 기술
 #### Front
-- react
+- react hooks
    - react-rotuer-dom
 #### Back
 - node.js
