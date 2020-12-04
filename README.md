@@ -26,6 +26,6 @@ typescript react mysql 학습을 위한 공지사항 어플리케이션입니다
    
    
 
-# 문서 
-[프로젝트 Sprint](https://github.com/jun-gyu/notice_application/projects)
+### 문서 
+[프로젝트 Sprint](https://github.com/jun-gyu/notice_application/projects)  
 [API 문서](https://app.gitbook.com/@enskawk1991/s/notice/)
